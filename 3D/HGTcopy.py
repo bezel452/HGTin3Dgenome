@@ -28,6 +28,7 @@ def copy_proc(file, HGT, res):
     points = list()         # [idx, chrom, start, end, nums]
     pos = 0
 #    pts = 0
+    gene = dict()
     for idx in range(len(chros) - 1):
         num = 0
     #    print(HGT_IN[pos][2])
@@ -42,18 +43,22 @@ def copy_proc(file, HGT, res):
                 num += 1
             '''
             num += 1
+            if idx not in gene.keys():
+                gene[idx] = list()
+            gene[idx].append([HGT_IN[pos][0], HGT_IN[pos][1], HGT_IN[pos][2]])
             pos += 1
         if num == 0:
             continue
         tmp = [idx, chros[idx], l[idx], r[idx], num]
         points.append(tmp)
     #    pts += 1
-    return points
+    return points, gene
 
 if __name__ == '__main__':
-    res = copy_proc('GSM1551550_HIC001.mcool', "anno_HGTcopy_sorted", 1000000)
+    res, gene = copy_proc('GSM1551550_HIC001.mcool', "anno_HGTcopy_sorted", 1000000)
     print(res)
     ans = 0
     for i in res:
         ans += i[4]
-    print(ans)        
+    print(ans)     
+    print(gene)   
