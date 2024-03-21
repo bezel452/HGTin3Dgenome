@@ -1,5 +1,6 @@
 '''
     calculate the distance and analyse it
+    radius of the ball
 '''
 
 import numpy as np
@@ -76,18 +77,18 @@ def analyze1(axl_file, file, res, HGT_file, center, R):
     dis_l = 0        # less than R/2
     for i in range(len(H_x)):
         tmp = np.array((H_x[i], H_y[i], H_z[i]))
-        if dis(tmp, center) > R / 2:
+        if dis(tmp, center) > R * (0.5 ** (1 / 3)):
             dis_m += 1
         else:
             dis_l += 1
-    print("THE NUMBER OF POINTS WHICH IS GREATER THAN HALF OF RADIUS: %d" %dis_m)
-    print("THE NUMBER OF POINTS WHICH IS LESS THAN HALF OF RADIUS: %d" %dis_l)
+    print("THE NUMBER OF POINTS WHICH IS GREATER THAN HALF OF VOLUME: %d" %dis_m)
+    print("THE NUMBER OF POINTS WHICH IS LESS THAN HALF OF VOLUME: %d" %dis_l)
 
 if __name__ == '__main__':
     center, r, points = CenterAndRadius('PM2.H050_500K')
     print(center)
     print(r)
-    test(center, r, points)
-#    analyze1('PM2.H050_500K', 'GSM1551599_HIC050.mcool', 500000, 'ann_HGT', center, r)
+#    test(center, r, points)
+    analyze1('PM2.H001_500k', 'GSM1551550_HIC001.mcool', 500000, 'ann_HGT', center, r)
     
     

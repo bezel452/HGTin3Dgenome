@@ -1,7 +1,7 @@
 '''
     analyze the copy of HGT distribution
 '''
-
+import matplotlib.pyplot as plt
 import numpy as np
 import cooler
 import math
@@ -38,20 +38,20 @@ def analyzeCopy(coordinate_file, cool_file, anno_file, resolution):
     for idx in range(len(axl_HGT)):
         axl = axl_HGT[idx]
         d = dis(axl, ball['Center'])
-        HGTdIS.append([idx, d])
-        if d < ball['Radius'] / 4:
+        HGTdIS.append(d / ball['Radius'])
+        if d < ball['Radius'] * (0.5 ** (2 / 3)):
             cnt1 += 1
             if visited != indices[idx]:
                 visited = indices[idx]
                 for g in gene[visited]:
                     gen_list1.append(g)
-        elif d < ball['Radius'] / 2:
+        elif d < ball['Radius'] * (0.5 ** (1 / 3)):
             cnt2 += 1
             if visited != indices[idx]:
                 visited = indices[idx]
                 for g in gene[visited]:
                     gen_list2.append(g)
-        elif d < ball['Radius'] * 3 / 4:
+        elif d < ball['Radius'] * ((3 / 4) ** (1 / 3)):
             cnt3 += 1
             if visited != indices[idx]:
                 visited = indices[idx]
@@ -63,10 +63,10 @@ def analyzeCopy(coordinate_file, cool_file, anno_file, resolution):
                 visited = indices[idx]
                 for g in gene[visited]:
                     gen_list4.append(g)
-    print("LESS THAN 1/4 RADIUS: ", cnt1)
-    print("LESS THAN 1/2 RADIUS: ", cnt2)
-    print("LESS THAN 3/4 RADIUS: ", cnt3)
-    print("GREATER THAN 3/4 RADIUS: ", cnt4)
+    print("LESS THAN 1/4 VOLUME: ", cnt1)
+    print("LESS THAN 1/2 VOLUME: ", cnt2)
+    print("LESS THAN 3/4 VOLUME: ", cnt3)
+    print("GREATER THAN 3/4 VOLUME: ", cnt4)
     '''
     print(gen_list1)
     print(gen_list2)
@@ -77,8 +77,19 @@ def analyzeCopy(coordinate_file, cool_file, anno_file, resolution):
     print(len(gen_list3))
     print(len(gen_list4))
     '''
-    t = coordinate_file.split('.')[1]
-    outputGene(gen_list4, 'GreaterThan3quartersRadius' + '_' + t + '.bed')
+#    t = coordinate_file.split('.')[1]
+#    outputGene(gen_list4, 'GreaterThan3quartersRadius' + '_' + t + '.bed')
+    drawHist(HGTdIS)
+    
+def drawHist(data):
+    X = sorted(data)
+    axl = plt.subplot()
+    axl.set_xlabel('Proportion of Radius')
+    axl.set_ylabel('Frequency')
+    plt.title('Distribution of HGT Sequences')
+    plt.hist(X, bins = 50)
+    plt.show()
+
 
 def outputGene(gene, outputFile):
     res = list()
@@ -92,6 +103,6 @@ def outputGene(gene, outputFile):
 if __name__ == '__main__':
     coordinate_file = 'PM2.H050_500K'
     cool_file = 'GSM1551599_HIC050.mcool'
-    anno_file = "anno_HGTcopy_sorted"
+    anno_file = "anno_HGTcopy_sorted"   
     resolution = 500000
     analyzeCopy(coordinate_file, cool_file, anno_file, resolution)
