@@ -9,4 +9,4 @@
 | distance_aly.py | 计算核膜、初步计数                            |
 | drawMid.py      | 中期汇报特供绘图脚本（调整了绘图样式）          |
 | proc_aly.py     | 分析copy序列 |
-
+| evaluate.py     | 分析整体的分布 |
