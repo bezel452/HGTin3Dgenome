@@ -67,20 +67,22 @@ def analyzeCopy(coordinate_file, cool_file, anno_file, resolution):
     print("LESS THAN 1/2 VOLUME: ", cnt2)
     print("LESS THAN 3/4 VOLUME: ", cnt3)
     print("GREATER THAN 3/4 VOLUME: ", cnt4)
-    '''
-    print(gen_list1)
-    print(gen_list2)
-    print(gen_list3)
-    print(gen_list4)
-    print(len(gen_list1))
-    print(len(gen_list2))
-    print(len(gen_list3))
-    print(len(gen_list4))
-    '''
-#    t = coordinate_file.split('.')[1]
-#    outputGene(gen_list4, 'GreaterThan3quartersRadius' + '_' + t + '.bed')
+
+    output = coordinate_file.split('.')[1] + 'hGT.txt'
+    X = sorted(HGTdIS)
+    with open(output, 'w') as f:
+        for x in X:
+            f.write(str(x) + '\n')
+    
+    
+    t = coordinate_file.split('.')[1]
+    outputGene(gen_list1, 'LessThan1quarterVOLUME' + '_' + t + '.bed')
+    outputGene(gen_list2, 'LessThanHalfVOLUME' + '_' + t + '.bed')
+    outputGene(gen_list3, 'LessThan3quartersVOLUME' + '_' + t + '.bed')
+    outputGene(gen_list4, 'GreaterThan3quartersVOLUME' + '_' + t + '.bed')
     drawHist(HGTdIS)
     
+
 def drawHist(data):
     X = sorted(data)
     axl = plt.subplot()
@@ -101,8 +103,8 @@ def outputGene(gene, outputFile):
         f.writelines(res)
 
 if __name__ == '__main__':
-    coordinate_file = 'PM2.H050_500K'
-    cool_file = 'GSM1551599_HIC050.mcool'
+    coordinate_file = 'PM2.H001_500k'
+    cool_file = 'GSM1551550_HIC001.mcool'
     anno_file = "anno_HGTcopy_sorted"   
     resolution = 500000
     analyzeCopy(coordinate_file, cool_file, anno_file, resolution)

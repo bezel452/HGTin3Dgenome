@@ -75,9 +75,10 @@ if __name__ == "__main__":
     plt.rcParams['savefig.facecolor'] = 'black'
     
     x, y, z = marked(data, chrom_dic.keys())
+    
     HGT = HGTmark(resolution, file, "anno_HGT")   # HGT标记
     H_x, H_y, H_z = HGTaxl(HGT, data)
-
+    
     chl = list(chrom_dic.values())
   
     chl = chl[:-1]
@@ -86,9 +87,9 @@ if __name__ == "__main__":
     tps = []
     for i in range(len(x)):
         t = axl.plot(x[i], y[i], z[i], c=chrom_col[i])
-        tps.append(t)
+        tps.append(t[0])
     axl.scatter(H_x, H_y, H_z, c="yellow")
-    plt.legend(tps, chl, facecolor='white')
+    axl.legend(tps, chl, facecolor='white')
     axl.set_axis_off()
     
     plt.show()
