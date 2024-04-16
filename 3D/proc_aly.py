@@ -68,19 +68,19 @@ def analyzeCopy(coordinate_file, cool_file, anno_file, resolution):
     print("LESS THAN 3/4 VOLUME: ", cnt3)
     print("GREATER THAN 3/4 VOLUME: ", cnt4)
 
-    output = coordinate_file.split('.')[1] + 'hGT.txt'
+    output = coordinate_file.split('.')[1] + '_' + anno_file + 'hGT.txt'
     X = sorted(HGTdIS)
     with open(output, 'w') as f:
         for x in X:
             f.write(str(x) + '\n')
     
     
-    t = coordinate_file.split('.')[1]
+    t = coordinate_file.split('.')[1] + anno_file
     outputGene(gen_list1, 'LessThan1quarterVOLUME' + '_' + t + '.bed')
     outputGene(gen_list2, 'LessThanHalfVOLUME' + '_' + t + '.bed')
     outputGene(gen_list3, 'LessThan3quartersVOLUME' + '_' + t + '.bed')
     outputGene(gen_list4, 'GreaterThan3quartersVOLUME' + '_' + t + '.bed')
-    drawHist(HGTdIS)
+#    drawHist(HGTdIS)
     
 
 def drawHist(data):
@@ -105,6 +105,6 @@ def outputGene(gene, outputFile):
 if __name__ == '__main__':
     coordinate_file = 'PM2.H001_500k'
     cool_file = 'GSM1551550_HIC001.mcool'
-    anno_file = "anno_HGTcopy_sorted"   
+    anno_file = "anno_only_sorted"   
     resolution = 500000
     analyzeCopy(coordinate_file, cool_file, anno_file, resolution)

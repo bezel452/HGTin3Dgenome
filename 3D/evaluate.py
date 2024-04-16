@@ -5,6 +5,7 @@
 import cooler
 from distance_aly import CenterAndRadius, dis
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 from HGTcopy import copy_proc
 
@@ -29,12 +30,12 @@ def pointDistribution(coordinate_file, cool_file, anno_file, resolution):
     plt.hist(X, bins = 50)
     plt.show()
     '''
-    '''    OUTPUT THE DATA
-    output = coordinate_file.split('.')[1] + '.txt'
+    ###    OUTPUT THE DATA
+    output = coordinate_file.split('.')[1] + '_' +anno_file + '.txt'
     with open(output, 'w') as f:
         for d in X:
             f.write(str(d) + '\n')
-    '''
+    
     return X
 
 def OutputGeneList(coordinate_file, cool_file, anno_file, resolution):
@@ -90,11 +91,65 @@ def outputList(Target, Gene):
     with open(outputfile, 'w') as f:
         f.writelines(res)
         
+def prove(coordinate_file, cool_file, test_set,resolution):      # prove our program which could correctly mark the points.
+    data = np.loadtxt(coordinate_file, delimiter=' ') 
+    fig = plt.figure(figsize = (15, 9))
+    
+    plt.rcParams['figure.facecolor'] = 'black'
+    plt.rcParams['axes.facecolor'] = 'black'
+    plt.rcParams['savefig.facecolor'] = 'black'
+    visited, gene = copy_proc(cool_file, test_set, resolution)
+    '''
+        We set 3 points that contain the first 3 points of the coordinate files as the simulated HGT points,
+        then we color the first 3 points of our model.
+        It can perfectly mark the position we hope. 
+    '''
+    x = list()
+    y = list()
+    z = list()
+    x1 = []
+    y1 = []
+    z1 = []
+    x2 = []
+    y2 = []
+    z2 = []
+    for i in range(0, 3):
+        x1.append(data[i][0])
+        y1.append(data[i][1])
+        z1.append(data[i][2])
+    for i in range(3, len(data)):
+        x2.append(data[i][0])
+        y2.append(data[i][1])
+        z2.append(data[i][2])
+    x.append(x1)
+    x.append(x2)
+    y.append(y1)
+    y.append(y2)
+    z.append(z1)
+    z.append(z2)
+    v_x = []
+    v_y = []
+    v_z = []
+    for idx, _, _, _, cnt in visited:
+        tmp = data[idx]
+        print(tmp)
+        v_x.append(tmp[0])
+        v_y.append(tmp[1])
+        v_z.append(tmp[2])
+    
+    axl = fig.add_subplot(111, projection='3d')
+    axl.plot(x[0], y[0], z[0], c='yellow')
+    axl.plot(x[1], y[1], z[1], c='gray')
+    axl.scatter(v_x, v_y, v_z, c='blue')
+    axl.set_axis_off()
+    
+    plt.show()
 
 if __name__ == '__main__':
     coordinate_file = 'PM2.H001_500k'
     cool_file = 'GSM1551550_HIC001.mcool'
-    anno_file = "anno_HGTcopy_sorted"   
+    anno_file = "anno_HGT_sorted"   
     resolution = 500000
     #pointDistribution(coordinate_file, cool_file, anno_file, resolution)
-    OutputGeneList(coordinate_file, cool_file, anno_file, resolution)
+    #OutputGeneList(coordinate_file, cool_file, anno_file, resolution)
+    prove(coordinate_file, cool_file, 'TESTSET', resolution)

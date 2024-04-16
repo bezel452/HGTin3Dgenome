@@ -89,6 +89,6 @@ if __name__ == '__main__':
     print(center)
     print(r)
 #    test(center, r, points)
-    analyze1('PM2.H001_500k', 'GSM1551550_HIC001.mcool', 500000, 'ann_HGT', center, r)
+    analyze1('PM2.H001_500k', 'GSM1551550_HIC001.mcool', 500000, 'anno_HGT', center, r)
     
     
