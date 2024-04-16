@@ -7,4 +7,5 @@
 | preHGT.py   | 从fasta文件中得到坐标                       |
 | anno.py     | 将BED文件变为注释格式（chr:start-end）      |
 | sortANNO.py | 对注释文件排序                              |
+| OnlyCopy.py | 获取单拷贝样本  |
 
