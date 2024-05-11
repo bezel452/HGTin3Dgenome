@@ -10,6 +10,7 @@ THIS IS THE DISTRIBUTION ANALYSIS AND THE FUNCTION ENRICHMENT ANALYSIS.
 |Processing001.R| 输出Analysis001.R的结果 |
 |Processing050.R| 输出Analysis050.R的结果 |
 |ProcessingONL.R| 输出Analysis050.R的结果 |
-|DrawFigure.R| 分布直方图绘制 |
+|DrawFigure.R| 分布直方图绘制（以半径为X轴） |
+|Draw2.R| 分布直方图绘制（以体积为X轴） |
 |FigureDraw.R | 富集分析结果可视化 |
 |Test.R| 假设检验 |
